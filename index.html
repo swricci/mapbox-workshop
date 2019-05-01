@@ -15,19 +15,42 @@
       <script>
          mapboxgl.accessToken = 'pk.eyJ1Ijoic3dyaWNjaSIsImEiOiJjanM0eWJsNXAwYTVvNDVvejlzYmwxbm1qIn0.7IKg-rHkTxLrfbjdMgWsew'; // don't keep '<' & '>' when pasting token
          
-         var map = new mapboxgl.Map({
+      var map = new mapboxgl.Map({
          container: 'map', // container id
-         style: 'mapbox://styles/mapbox/streets-v10', //hosted style id;  
-         //others: 
-         //	'mapbox://styles/mapbox/light-v10'
-         //	'mapbox://styles/mapbox/streets-v10' 
-         //	'mapbox://styles/mapbox/dark-v10'
-         //	'mapbox://styles/mapbox/outdoors-v10'  
-         //	'mapbox://styles/mapbox/satellite-v10' 
-         //	'mapbox://styles/mapbox/traffic-night-v2'
-         center: [-78.6382, 35.7796], // change starting position to coordinates associated w/ your data.
+         style: 'mapbox://styles/mapbox/satellite-v9', //hosted style id;  
+         center: [-81.75,24.5], // change starting position to coordinates associated w/ your data.
          zoom: 6 // starting zoom
-         });
+      });
+      map.on('load', function () {
+ //don't add source and add layer, add source within addLayer call
+   map.addLayer({
+      'id': 'FKNMS zones',
+      'type': 'fill',
+      'source': {
+         'type': 'geojson',
+         'data': "https://raw.githubusercontent.com/swricci/mapbox-workshop/master/fknms_vect_latlon"
+      },
+      'paint': {
+         'fill-color': '#ffffff',
+         'fill-opacity': 0.5
+}
+      });
+
+      map.addLayer({
+      'id': 'pilot boat',
+      'type': 'fill',
+      'source': {
+         'type': 'geojson',
+         'data': "https://raw.githubusercontent.com/swricci/mapbox-workshop/master/pilot_latlon"
+      },
+      'paint': {
+         'fill-color': {
+                  property: 'passenger_captblinky_vislevelsSPL',
+                  type: 'exponential',
+                   },
+      }
+      });
+ });
       </script>
    </body>
 </html>
